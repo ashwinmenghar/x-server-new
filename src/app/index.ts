@@ -10,16 +10,17 @@ import { Tweet } from "./tweet";
 
 import JWTService from "../services/jwt";
 import { GraphqlContext } from "../interfaces";
+import path from "path";
 
 export async function initServer() {
   const app = express();
 
   app.use(bodyParser.json());
   app.use(cors());
-
-  // app.get("/", (req, res) =>
-  //   res.status(200).json({ message: "Everything is good" })
-  // );
+  path.join(__dirname, "./build");
+  app.get("/", (req, res) =>
+    res.status(200).json({ message: "Everything is good" })
+  );
 
   const graphqlServer = new ApolloServer<GraphqlContext>({
     typeDefs: `
