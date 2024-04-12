@@ -18,6 +18,7 @@ export async function initServer() {
   app.use(bodyParser.json());
   app.use(cors());
   path.join(__dirname, "./build");
+
   app.get("/", (req, res) =>
     res.status(200).json({ message: "Everything is good" })
   );
