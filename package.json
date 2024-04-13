@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "prisma migrate dev && tsc -p . && node build/index.js",
-    "build": "tsc -p . && \"npm start\"",
-    "dev": "cd build && tsc-watch --onSuccess \"npm start\"",
+    "start": "node build/index.js",
+    "build": "tsc -p .",
+    "dev": "tsc-watch --onSuccess \"npm start\"",
     "post-build": "cd build",
     "postinstall":"npm start"
   },
