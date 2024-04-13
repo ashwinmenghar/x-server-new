@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "build": "tsc -p . && prisma generate && echo pwd",
+    "build": "tsc -p . && prisma generate && pwd",
     "dev": "tsc-watch --onSuccess \"npm start\"",
     "post-build": "node build/index.js"
   },
