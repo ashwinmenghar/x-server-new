@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc -p . && node build/index.js",
+    "start": "prisma generate && tsc -p . && node build/index.js",
     "build": "tsc -p . && \"npm start\"",
     "dev": "cd build && tsc-watch --onSuccess \"npm start\"",
     "post-build": "cd build",
