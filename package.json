@@ -7,8 +7,7 @@
     "start": "node build/index.js",
     "build": "tsc -p . && node build/index.js",
     "dev": "tsc-watch --onSuccess \"npm start\"",
-    "post-build": "cd build",
-    "postinstall":"npm start"
+    "post-build": "cd build"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
