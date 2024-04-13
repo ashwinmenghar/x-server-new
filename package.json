@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "build": "tsc -p . && prisma generate && node build/index.js",
+    "build": "tsc -p . && prisma generate",
     "dev": "tsc-watch --onSuccess \"npm start\"",
-    "post-build": "cd build && prisma generate"
+    "post-build": "node build/index.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
