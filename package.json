@@ -5,8 +5,10 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "build": "tsc -p .",
-    "dev": "cd build && tsc-watch --onSuccess \"npm start\""
+    "build": "tsc -p . && \"npm start\"",
+    "dev": "cd build && tsc-watch --onSuccess \"npm start\"",
+    "post-build": "cd build",
+    "postinstall":"npm start"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
