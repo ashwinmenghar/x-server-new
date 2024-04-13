@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "tsc -p .",
-    "dev": "tsc-watch --onSuccess \"npm start\""
+    "dev": "cd build && tsc-watch --onSuccess \"npm start\""
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
