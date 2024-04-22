@@ -44,6 +44,16 @@ class UserService {
           firstName: data.given_name as string,
           lastName: data.family_name,
           profileImageURL: data.picture,
+          username: data.email.split("@")[0],
+        },
+      });
+    } else {
+      await prismaClient.user.update({
+        where: { email: data.email },
+        data: {
+          firstName: data.given_name as string,
+          lastName: data.family_name,
+          profileImageURL: data.picture,
         },
       });
     }
@@ -59,7 +69,9 @@ class UserService {
   }
 
   public static getUserById(id: string) {
-    return prismaClient.user.findUnique({ where: { id } });
+    return prismaClient.user.findUnique({
+      where: { id },
+    });
   }
 
   public static followUser(from: string, to: string) {

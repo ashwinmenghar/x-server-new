@@ -14,23 +14,47 @@ const queries = {
 
   getCurrentUser: async (parent: any, args: any, ctx: GraphqlContext) => {
     const id = ctx.user?.id;
+
+    console.log("current uiser id", id);
+
     if (!id) return null;
 
     const user = UserService.getUserById(id);
+
     return user;
   },
 
   getUserById: async (
     parent: any,
-    { id }: { id: string },
+    { id, userId }: { id: string; userId: string },
     ctx: GraphqlContext
-  ) => UserService.getUserById(id),
+  ) => {
+    const user = await UserService.getUserById(id);
+
+    return user;
+  },
 };
 
 const extraResolvers = {
   User: {
     tweets: (parent: User) =>
-      prismaClient.tweet.findMany({ where: { authorId: parent.id } }),
+      prismaClient.tweet
+        .findMany({
+          where: { authorId: parent.id },
+          orderBy: { createdAt: "desc" },
+          include: {
+            likes: {
+              include: { user: true },
+              where: { userId: parent.id },
+            },
+          },
+        })
+        .then((tweets) =>
+          tweets.map((tweet) => ({
+            ...tweet,
+            likeCount: tweet.likes.length, // Count of likes for each tweet
+          }))
+        ),
 
     followers: async (parent: User) => {
       const result = await prismaClient.follows.findMany({

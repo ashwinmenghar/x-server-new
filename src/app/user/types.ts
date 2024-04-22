@@ -5,6 +5,7 @@ type User {
   firstName: String!
   lastName: String
   email: String!
+  username: String!
   profileImageURL: String
   
   followers:[User]

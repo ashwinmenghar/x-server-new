@@ -12,13 +12,14 @@ const s3Client = new S3Client({
 });
 
 const queries = {
-  getAllTweets: () => TweetService.getAllTweet(),
+  getAllTweets: (_: any, {}, ctx: GraphqlContext) =>
+    TweetService.getAllTweet(1, String(ctx.user?.id)),
+
   getSignedURLForTweet: async (
     parent: any,
     { imageType, imageName }: { imageType: string; imageName: string },
     ctx: GraphqlContext
   ) => {
-
     if (!ctx.user || !ctx.user.id) throw new Error("Unauthenticated");
     const allowedImageTypes = [
       "image/jpg",
@@ -40,6 +41,14 @@ const queries = {
     const signedUrl = await getSignedUrl(s3Client, putObjectCommand);
     return signedUrl;
   },
+
+  getTweetPerPage: (
+    parent: any,
+    { page }: { page: number },
+    ctx: GraphqlContext
+  ) => TweetService.getAllTweet(page, String(ctx.user?.id)),
+
+  getLikeByUserId: (userId: string) => TweetService.getLikeByUserId(userId),
 };
 
 const mutations = {
@@ -56,6 +65,25 @@ const mutations = {
     });
 
     return tweet;
+  },
+
+  createLike: async (
+    parent: any,
+    { tweetId, userId }: { tweetId: string; userId: string },
+    ctx: GraphqlContext
+  ) => {
+    if (!ctx.user) throw new Error("You are not authenticated");
+    const like = await TweetService.createLike(userId as string, tweetId);
+
+    return like;
+  },
+  unLike: async (
+    parent: any,
+    { likeId }: { likeId: string },
+    ctx: GraphqlContext
+  ) => {
+    if (!ctx.user) throw new Error("You are not authenticated");
+    return TweetService.unLike(likeId);
   },
 };
 
